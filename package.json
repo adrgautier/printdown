@@ -1,0 +1,22 @@
+{
+  "name": "latexflow",
+  "version": "1.0.0",
+  "description": "latexflow",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "remark": "remark --help"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/adrgautier/latex-flow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/adrgautier/latex-flow#readme",
+  "dependencies": {
+    "remark-cli": "^2.1.0",
+    "remark-gemoji-to-emoji": "^1.0.0",
+    "remark-lint": "^5.4.0"
+  }
+}
