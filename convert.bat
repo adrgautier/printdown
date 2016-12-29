@@ -17,8 +17,6 @@ echo -- Start loop
 echo.
 
 for %%a in (".\input\*.md") do call :Remark %%~na
-REM for %%a in (".\tmp\*.md") do call :Pandoc %%~na
-REM for %%a in (".\tmp\*.tex") do call :Xelatex %%~na
 goto End
 
 :Remark
@@ -32,6 +30,7 @@ goto :eof
 set name=%1
 echo [%name%] Mardown to Tex conversion through Pandoc
 pandoc .\tmp\%name%.md -o .\tmp\%name%.tex --filter .\resources\filter\pandoc-minted.py --no-highlight --template=.\resources\template\custom.tex
+cp .\tmp\%name%.tex .\output\%name%.tex
 call :Xelatex %name%
 goto :eof
 

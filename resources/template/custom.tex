@@ -1,7 +1,46 @@
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+\documentclass[a4paper, 12pt]{article}
 
-\usepackage{emojione}
+\usepackage[scale=1.8]{emojione}
+
 \usepackage[cache=false]{minted}
+\usemintedstyle{balanced-dark}
+
+\usepackage{mdframed}
+\usepackage{xcolor}
+\definecolor{base00}{HTML}{232323}
+\definecolor{base01}{HTML}{373737}
+\definecolor{base02}{HTML}{4B4B4B}
+\definecolor{base03}{HTML}{696969}
+\definecolor{base04}{HTML}{B9B9B9}
+\definecolor{base05}{HTML}{D7D7D7}
+\definecolor{base06}{HTML}{EBEBEB}
+\definecolor{base07}{HTML}{FFFFFF}
+\definecolor{base08}{HTML}{c35555} % red
+\definecolor{base09}{HTML}{e19155} % orange
+\definecolor{base0A}{HTML}{f5cd7d} % yellow
+\definecolor{base0B}{HTML}{91b973} % green
+\definecolor{base0C}{HTML}{91c3c3} % cyan
+\definecolor{base0D}{HTML}{4b91b9} % blue
+\definecolor{base0E}{HTML}{9b69af} % purple
+\definecolor{base0F}{HTML}{37697d} % teal
+
+\mdfdefinestyle{code}{
+  % leftmargin=-1cm,
+  % rightmargin=-.5cm,
+  innerleftmargin=1cm,
+  innertopmargin=.5cm,
+  innerrightmargin=.5cm,
+  innerbottommargin=.5cm,              
+  backgroundcolor=base00,
+  linewidth=0
+}
+
+\newcommand{\shiftleft}[2]{\makebox[0pt][r]{\makebox[#1][l]{#2}}}
+\newcommand{\shiftright}[2]{\makebox[#1][r]{\makebox[0pt][l]{#2}}}
+
+\renewcommand{\theFancyVerbLine}{\textcolor{base02}{\small\shiftleft{.25cm}{\arabic{FancyVerbLine}}}}
+\BeforeBeginEnvironment{minted}{\begin{mdframed}[style=code]}
+\AfterEndEnvironment{minted}{\end{mdframed}}
 
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -29,9 +68,8 @@ $endif$
 
 \usepackage{crimson}
 \usepackage{sourcesanspro}
-
-
 \setmonofont[Mapping=tex-ansi]{Consolas}
+\renewcommand{\familydefault}{\sfdefault}
 
 $if(mathfont)$
     \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
@@ -111,134 +149,6 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 
-$if(listings)$
-\usepackage{color}
-\usepackage{listings}
-% \lstdefinelanguage{JavaScript}{
-%   keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
-%   morecomment=[l]{//},
-%   morecomment=[s]{/*}{*/},
-%   morestring=[b]',
-%   morestring=[b]",
-%   ndkeywords={class, export, boolean, throw, implements, import, this},
-%   keywordstyle=\color{blue}\bfseries,
-%   ndkeywordstyle=\color{darkgray}\bfseries,
-%   identifierstyle=\color{black},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   sensitive=true
-% }
-\lstset{
-    backgroundcolor=\color[RGB]{35,35,35},
-    basicstyle=\color[RGB]{235,235,235}\ttfamily\small,
-    aboveskip={2.0\baselineskip},
-    belowskip={2.0\baselineskip},
-    columns=fixed,
-    extendedchars=true,
-    breaklines=true,
-    tabsize=4,
-    prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
-    xleftmargin=1em,
-    xrightmargin=1em,
-    frame=none,
-    framesep=1em,
-    frameround=tttt,
-    showtabs=false,
-    showspaces=false,
-    showstringspaces=false,
-    keywordstyle=\color[RGB]{145,185,115}\ttfamily\small,
-    commentstyle=\color[RGB]{185,185,185}\ttfamily\small,
-    stringstyle=\color[RGB]{145,195,195}\ttfamily\small,
-    numbers=left,
-    numberstyle=\color[RGB]{225,145,85}\ttfamily\small,
-    stepnumber=1,
-    numbersep=10pt,
-    captionpos=t,
-    escapeinside={\%*}{*)}
-}
-$endif$
-%\usepackage{fancyvrb}
-%\usepackage{xcolor}
-%\usepackage{listings}
-% \lstnewenvironment{Shaded}{
-%     \lstset{
-%     backgroundcolor=\color[RGB]{35,35,35},
-%     basicstyle=\color[RGB]{235,235,235}\ttfamily\small,
-%     aboveskip={2.0\baselineskip},
-%     belowskip={2.0\baselineskip},
-%     columns=fixed,
-%     extendedchars=true,
-%     breaklines=true,
-%     tabsize=4,
-%     prebreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
-%     xleftmargin=1em,
-%     xrightmargin=1em,
-%     frame=none,
-%     framesep=1em,
-%     frameround=tttt,
-%     showtabs=false,
-%     showspaces=false,
-%     showstringspaces=false,
-%     keywordstyle=\color[RGB]{145,185,115}\ttfamily\small,
-%     commentstyle=\color[RGB]{185,185,185}\ttfamily\small,
-%     stringstyle=\color[RGB]{145,195,195}\ttfamily\small,
-%     numbers=left,
-%     numberstyle=\color[RGB]{225,145,85}\ttfamily\small,
-%     stepnumber=1,
-%     numbersep=10pt,
-%     captionpos=t,
-%     escapeinside={\%*}{*)}}
-% }{}
-% \definecolor{base00}{HTML}{232323}
-% \definecolor{base01}{HTML}{373737}
-% \definecolor{base02}{HTML}{4B4B4B}
-% \definecolor{base03}{HTML}{696969}
-% \definecolor{base04}{HTML}{B9B9B9}
-% \definecolor{base05}{HTML}{D7D7D7}
-% \definecolor{base06}{HTML}{EBEBEB}
-% \definecolor{base07}{HTML}{FFFFFF}
-% \definecolor{base08}{HTML}{c35555} % red
-% \definecolor{base09}{HTML}{e19155} % orange
-% \definecolor{base0A}{HTML}{f5cd7d} % yellow
-% \definecolor{base0B}{HTML}{91b973} % green
-% \definecolor{base0C}{HTML}{91c3c3} % cyan
-% \definecolor{base0D}{HTML}{4b91b9} % blue
-% \definecolor{base0E}{HTML}{9b69af} % purple
-% \definecolor{base0F}{HTML}{37697d} % teal
-% \renewcommand{\AlertTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\AnnotationTok}[1]{\textcolor{base08}{\textbf{{#1}}}}
-% \renewcommand{\AttributeTok}[1]{\textcolor{base00}{{#1}}}
-% \renewcommand{\BaseNTok}[1]{\textcolor{base0A}{{#1}}}
-% \renewcommand{\BuiltInTok}[1]{\textcolor{base0A}{{#1}}}
-% \renewcommand{\CharTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\CommentTok}[1]{\textcolor{base04}{\textit{{#1}}}}
-% \renewcommand{\CommentVarTok}[1]{\textcolor{base03}{\textbf{\textit{{#1}}}}}
-% \renewcommand{\ConstantTok}[1]{\textcolor{base0C}{{#1}}}
-% \renewcommand{\ControlFlowTok}[1]{\textcolor{base0E}{{#1}}}
-% \renewcommand{\DataTypeTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\DecValTok}[1]{\textcolor{base09}{{#1}}}
-% \renewcommand{\DocumentationTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\ErrorTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\ExtensionTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\FloatTok}[1]{\textcolor{base09}{{#1}}}
-% \renewcommand{\FunctionTok}[1]{\textcolor{base0D}{{#1}}}
-% \renewcommand{\ImportTok}[1]{\textcolor{base0E}{{#1}}}
-% \renewcommand{\InformationTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\KeywordTok}[1]{\textcolor{base0E}{{#1}}}
-% \renewcommand{\NormalTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\OperatorTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\OtherTok}[1]{\textcolor{base0F}{{#1}}}
-% \renewcommand{\PreprocessorTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\RegionMarkerTok}[1]{\textcolor{base02}{{#1}}}
-% \renewcommand{\SpecialCharTok}[1]{\textcolor{base08}{{#1}}}
-% \renewcommand{\SpecialStringTok}[1]{\textcolor{base0B}{{#1}}}
-% \renewcommand{\StringTok}[1]{\textcolor{base0B}{{#1}}}
-% \renewcommand{\VariableTok}[1]{\textcolor{base0D}{{#1}}}
-% \renewcommand{\VerbatimStringTok}[1]{\textcolor{base0B}{{#1}}}
-% \renewcommand{\WarningTok}[1]{\textcolor{base02}{{#1}}}
-
-
-
 
 $if(verbatim-in-note)$
 \usepackage{fancyvrb}
@@ -295,16 +205,17 @@ $endif$
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 
-$if(numbersections)$
-\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
-$else$
-\setcounter{secnumdepth}{0}
-$endif$
+% Numbering sections
+\setcounter{secnumdepth}{2}
+
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\Alph{subsection}}
 
 
 
-$if(subparagraph)$
-$else$
+
+
+
 % Redefines (sub)paragraphs to behave more like sections
 \ifx\paragraph\undefined\else
 \let\oldparagraph\paragraph
@@ -314,7 +225,30 @@ $else$
 \let\oldsubparagraph\subparagraph
 \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
-$endif$
+
+
+\mdfdefinestyle{quote}{
+  leftmargin=.5cm,
+  rightmargin=-.5cm,
+  innerleftmargin=-.5cm,
+  skipabove=.5cm,
+  innerrightmargin=.5cm,
+  skipbelow=.5cm,
+  rightline=false,
+  topline=false,
+  bottomline=false,     
+  linecolor=base06,
+  linewidth=4pt
+}
+
+\let\origquote\quote
+\let\endorigquote\endquote
+\renewenvironment{quote}{%
+  \begin{mdframed}[style=quote]
+  \origquote
+  
+}%
+{\endorigquote\end{mdframed}}
 
 
 $if(dir)$
@@ -373,7 +307,7 @@ $endif$
 % $endif$
 
 
-\date{$date$}
+
 
 \begin{document}
 
@@ -403,8 +337,8 @@ $endif$
 % $if(colorlinks)$
 % \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
 % $endif$
-% \setcounter{tocdepth}{$toc-depth$}
-% \tableofcontents
+\setcounter{tocdepth}{5}
+\tableofcontents
 % %}$endif$
 
 %%% list of tables 
