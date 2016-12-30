@@ -1,11 +1,75 @@
 \documentclass[a4paper, 12pt]{article}
+\usepackage{ifxetex,ifluatex}
+
+% 
+% HELPERS
+% 
+
+\newcommand{\shiftleft}[2]{\makebox[0pt][r]{\makebox[#1][l]{#2}}}
+\newcommand{\shiftright}[2]{\makebox[#1][r]{\makebox[0pt][l]{#2}}}
+
+% 
+% MARGINS
+% 
+
+\usepackage{geometry}
+\geometry{total={210mm,297mm},
+left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+
+% 
+% FONTS
+% 
+
+\usepackage{crimson}
+\usepackage[semibold,light,otf,default]{sourcesanspro}
+\setmonofont[Mapping=tex-ansi]{Consolas}
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+
+
+% 
+% EMOJIONE
+% 
 
 \usepackage[scale=1.8]{emojione}
 
-\usepackage[cache=false]{minted}
-\usemintedstyle{balanced-dark}
-
+%
+% FRAMES
+%
 \usepackage{mdframed}
+
+% code frame
+\mdfdefinestyle{code}{
+  % leftmargin=-1cm,
+  % rightmargin=-.5cm,
+  innerleftmargin=1cm,
+  innertopmargin=.2cm,
+  innerrightmargin=.2cm,
+  innerbottommargin=.2cm,              
+  backgroundcolor=base00,
+  linewidth=0
+}
+
+% quote frame
+\mdfdefinestyle{quote}{
+  leftmargin=.5cm,
+  rightmargin=-.5cm,
+  innerleftmargin=-.5cm,
+  skipabove=.5cm,
+  innerrightmargin=.5cm,
+  skipbelow=.5cm,
+  rightline=false,
+  topline=false,
+  bottomline=false,     
+  linecolor=base06,
+  linewidth=4pt
+}
+
+% 
+% SYNTHAX HIGHLIGTING
+% 
+
+% colors definition (balanced)
 \usepackage{xcolor}
 \definecolor{base00}{HTML}{232323}
 \definecolor{base01}{HTML}{373737}
@@ -24,62 +88,103 @@
 \definecolor{base0E}{HTML}{9b69af} % purple
 \definecolor{base0F}{HTML}{37697d} % teal
 
-\mdfdefinestyle{code}{
-  % leftmargin=-1cm,
-  % rightmargin=-.5cm,
-  innerleftmargin=1cm,
-  innertopmargin=.5cm,
-  innerrightmargin=.5cm,
-  innerbottommargin=.5cm,              
-  backgroundcolor=base00,
-  linewidth=0
-}
+% minted import
+\usepackage[cache=false]{minted}
+\usemintedstyle{balanced-dark}
 
-\newcommand{\shiftleft}[2]{\makebox[0pt][r]{\makebox[#1][l]{#2}}}
-\newcommand{\shiftright}[2]{\makebox[#1][r]{\makebox[0pt][l]{#2}}}
-
-\renewcommand{\theFancyVerbLine}{\textcolor{base02}{\small\shiftleft{.25cm}{\arabic{FancyVerbLine}}}}
+% set frame
 \BeforeBeginEnvironment{minted}{\begin{mdframed}[style=code]}
 \AfterEndEnvironment{minted}{\end{mdframed}}
 
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
+% line numbers styling
+\renewcommand{\theFancyVerbLine}{\textcolor{base02}{\small\shiftleft{.25cm}{\arabic{FancyVerbLine}}}}
 
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
-  \usepackage[utf8]{inputenc}
-$if(euro)$
-  \usepackage{eurosym}
-$endif$
-\else % if luatex or xelatex
-  \ifxetex
-    \usepackage{mathspec}
-  \else
-    \usepackage{fontspec}
-  \fi
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-$for(fontfamilies)$
-  \newfontfamily{$fontfamilies.name$}[$fontfamilies.options$]{$fontfamilies.font$}
-$endfor$
-$if(euro)$
-  \newcommand{\euro}{€}
-$endif$
 
-\usepackage{crimson}
-\usepackage{sourcesanspro}
-\setmonofont[Mapping=tex-ansi]{Consolas}
-\renewcommand{\familydefault}{\sfdefault}
+%
+% QUOTE
+%
+\usepackage{tablefootnote}
 
-$if(mathfont)$
-    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-$endif$
-$if(CJKmainfont)$
-    \usepackage{xeCJK}
-    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
-$endif$
-\fi
+\makeatletter
+\def\ifenv#1{
+   \def\@tempa{#1}%
+   \ifx\@tempa\@currenvir
+      \expandafter\@firstoftwo
+    \else
+      \expandafter\@secondoftwo
+   \fi
+}
+\makeatother
 
+\let\oldfootnote\footnote
+\renewcommand{\footnote}[1]{\ifenv{mdframed}{\tablefootnote{#1}}{\oldfootnote{#1}}}
+
+\let\origquote\quote
+\let\endorigquote\endquote
+\renewenvironment{quote}{%
+  \begin{mdframed}[style=quote]
+  \origquote
+}%
+{
+  \endorigquote
+  \end{mdframed}
+}
+
+\makeatletter 
+\AfterEndEnvironment{quote}{%
+ \tfn@tablefootnoteprintout% 
+ \gdef\tfn@fnt{0}% 
+}
+\makeatother 
+
+%
+% HEADERS NUMBERING
+%
+
+\setcounter{secnumdepth}{3}
+\renewcommand{\thesection}{}
+\renewcommand{\thesubsection}{\Alph{subsection}. }
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}. }
+
+% \titlespacing*{ command }{ left }{ before-sep }{ after-sep }[ right-sep ]
+
+\usepackage{titlesec}% http://ctan.org/pkg/titlesec
+
+\titleformat{\section}{\Huge\sourcesansproextreme\scshape\slshape}{\thesection}{0cm}{}{}
+\titleformat{\subsection}{\Large\sourcesanspro\bfseries}{\thesubsection}{0cm}{}{}
+\titlespacing{\subsection}{.5cm}{0cm}{0cm}
+\titleformat{\subsubsection}{\large\sourcesanspro\bfseries}{\thesubsubsection}{0cm}{}{}
+\titlespacing{\subsubsection}{1cm}{0cm}{0cm}
+
+
+
+
+% NEW PAGE AFTER SECTION
+%\newcommand{\sectionbreak}{\clearpage}
+\usepackage{etoolbox}
+\pretocmd{\section}{%
+  \ifnum\value{section}=0 \else\clearpage\fi
+}{}{}
+
+% remove indent
+% \makeatletter
+% \def\@seccntformat#1{\csname #1ignore\expandafter\endcsname\csname the#1\endcsname\quad}
+% \let\sectionignore\@gobbletwo
+% \let\latex@numberline\numberline
+% \def\numberline#1{\if\relax#1\relax\else\latex@numberline{#1}\fi}
+% \makeatother
+
+
+
+%
+% LINKS
+%
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
 
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -90,41 +195,11 @@ $endif$
 }{}
 
 
-\usepackage{geometry}
-\geometry{total={210mm,297mm},
-left=25mm,right=25mm,%
-bindingoffset=0mm, top=20mm,bottom=20mm}
 
 
 
-\usepackage[unicode=true]{hyperref}
 
 
-$if(colorlinks)$
-\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
-$endif$
-
-\hypersetup{
-$if(title-meta)$
-            pdftitle={$title-meta$},
-$endif$
-$if(author-meta)$
-            pdfauthor={$author-meta$},
-$endif$
-$if(keywords)$
-            pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
-$endif$
-$if(colorlinks)$
-            colorlinks=true,
-            linkcolor=$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
-            citecolor=$if(citecolor)$$citecolor$$else$Blue$endif$,
-            urlcolor=$if(urlcolor)$$urlcolor$$else$Blue$endif$,
-$else$
-            pdfborder={0 0 0},
-$endif$
-            breaklinks=true}
-
-\urlstyle{same}  % don't use monospace font for urls
 
 $if(lang)$
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
@@ -140,21 +215,6 @@ $for(polyglossia-otherlangs)$
 $endfor$
 \fi
 $endif$
-
-$if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
-$endif$
-
-$if(highlighting-macros)$
-$highlighting-macros$
-$endif$
-
-
-$if(verbatim-in-note)$
-\usepackage{fancyvrb}
-\VerbatimFootnotes % allows verbatim text in footnotes
-$endif$
-
 
 $if(tables)$
 \usepackage{longtable,booktabs}
@@ -175,11 +235,6 @@ $if(graphics)$
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 $endif$
 
-
-$if(links-as-notes)$
-% Make links footnotes instead of hotlinks:
-\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
-$endif$
 
 
 $if(strikeout)$
@@ -205,11 +260,6 @@ $endif$
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 
-% Numbering sections
-\setcounter{secnumdepth}{2}
-
-\renewcommand{\thesection}{\Roman{section}}
-\renewcommand{\thesubsection}{\Alph{subsection}}
 
 
 
@@ -227,48 +277,6 @@ $endif$
 \fi
 
 
-\mdfdefinestyle{quote}{
-  leftmargin=.5cm,
-  rightmargin=-.5cm,
-  innerleftmargin=-.5cm,
-  skipabove=.5cm,
-  innerrightmargin=.5cm,
-  skipbelow=.5cm,
-  rightline=false,
-  topline=false,
-  bottomline=false,     
-  linecolor=base06,
-  linewidth=4pt
-}
-
-\let\origquote\quote
-\let\endorigquote\endquote
-\renewenvironment{quote}{%
-  \begin{mdframed}[style=quote]
-  \origquote
-  
-}%
-{\endorigquote\end{mdframed}}
-
-
-$if(dir)$
-\ifxetex
-  % load bidi as late as possible as it modifies e.g. graphicx
-  $if(latex-dir-rtl)$
-  \usepackage[RTLdocument]{bidi}
-  $else$
-  \usepackage{bidi}
-  $endif$
-\fi
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  \TeXXeTstate=1
-  \newcommand{\RL}[1]{\beginR #1\endR}
-  \newcommand{\LR}[1]{\beginL #1\endL}
-  \newenvironment{RTL}{\beginR}{\endR}
-  \newenvironment{LTR}{\beginL}{\endL}
-\fi
-$endif$
-
 %%% set default figure placement to htbp
 % \makeatletter
 % \def\fps@figure{htbp}
@@ -281,49 +289,54 @@ $endif$
 % $endfor$
 
 %%% title 
-%
-% $if(title)$
-% \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
-% $endif$
+
+$if(title)$
+\title{$title$}
+$endif$
 
 %%% subtitle 
-%
-% $if(subtitle)$
-% \providecommand{\subtitle}[1]{}
-% \subtitle{$subtitle$}
-% $endif$
+
+$if(subtitle)$
+\providecommand{\subtitle}[1]{}
+\subtitle{$subtitle$}
+$endif$
 
 %%% author 
-%
-% $if(author)$
-% \author{$for(author)$$author$$sep$ \and $endfor$}
-% $endif$
 
-%%% institute 
-%
-% $if(institute)$
-% \providecommand{\institute}[1]{}
-% \institute{$for(institute)$$institute$$sep$ \and $endfor$}
-% $endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
 
 
-
+%%% table of contents
+\renewcommand\contentsname{Sommaire}
+\setcounter{tocdepth}{3}
+\usepackage{tocloft}
+\cftsetindents{section}{0cm}{0cm}
+\cftsetindents{subsection}{0.5cm}{0.5cm}
+\cftsetindents{subsubsection}{1cm}{0.5cm}
 
 \begin{document}
 
 %%% title 
-%
-% $if(title)$
-% \maketitle
-% $endif$
+
+$if(title)$
+\maketitle
+$endif$
+
+\clearpage
+
+
+
+
 
 %%% abstract 
-%
-% $if(abstract)$
-% \begin{abstract}
-% $abstract$
-% \end{abstract}
-% $endif$
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+\clearpage
+$endif$
 
 %%% include before 
 %
@@ -332,14 +345,15 @@ $endif$
 % $endfor$
 
 %%% table of contents
-%
-% %$if(toc)${
-% $if(colorlinks)$
-% \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
-% $endif$
-\setcounter{tocdepth}{5}
+
 \tableofcontents
-% %}$endif$
+\clearpage
+
+
+
+
+$body$
+
 
 %%% list of tables 
 %
@@ -352,8 +366,6 @@ $endif$
 % $if(lof)$
 % \listoffigures
 % $endif$
-
-$body$
 
 %%% bibliography 
 %

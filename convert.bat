@@ -16,7 +16,7 @@ echo.
 echo -- Start loop
 echo.
 
-for %%a in (".\input\*.md") do call :Remark %%~na
+for %%a in (".\input\*.md") do call :RemarkByPass %%~na
 goto End
 
 :Remark
@@ -26,10 +26,18 @@ call remark .\input\%name%.md --rc-path=remark.json
 call :Pandoc %name%
 goto :eof
 
+:RemarkByPass
+set name=%1
+echo [%name%] Markdown processing through Remark
+cp .\input\%name%.md .\tmp\%name%.md
+call :Pandoc %name%
+goto :eof
+
+
 :Pandoc
 set name=%1
 echo [%name%] Mardown to Tex conversion through Pandoc
-pandoc .\tmp\%name%.md -o .\tmp\%name%.tex --filter .\resources\filter\pandoc-minted.py --no-highlight --template=.\resources\template\custom.tex
+pandoc .\tmp\%name%.md -o .\tmp\%name%.tex --filter .\resources\filter\pandoc-minted.py --no-highlight --template=.\resources\template\custom.tex --top-level-division=section
 cp .\tmp\%name%.tex .\output\%name%.tex
 call :Xelatex %name%
 goto :eof
@@ -38,6 +46,7 @@ goto :eof
 set name=%1
 echo [%name%] Pdf generation conversion with Xelatex
 cd .\tmp\
+xelatex %name%.tex --shell-escape
 xelatex %name%.tex --shell-escape
 cp %name%.pdf ..\output\%name%.pdf
 cd ..\
