@@ -16,13 +16,21 @@ echo.
 echo -- Start loop
 echo.
 
-for %%a in (".\input\*.md") do call :RemarkByPass %%~na
+for %%a in (".\input\*.md") do call :Retext %%~na
 goto End
 
 :Remark
 set name=%1
 echo [%name%] Markdown processing through Remark
 call remark .\input\%name%.md --rc-path=remark.json
+call :Pandoc %name%
+goto :eof
+
+:Retext
+set name=%1
+echo [%name%] Markdown processing through Retext
+call node retext.js --input=%name%.md
+cp .\tmp\%name%.md .\output\%name%.md
 call :Pandoc %name%
 goto :eof
 

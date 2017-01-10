@@ -99,11 +99,33 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 % line numbers styling
 \renewcommand{\theFancyVerbLine}{\textcolor{base02}{\small\shiftleft{.25cm}{\arabic{FancyVerbLine}}}}
 
-
 %
-% QUOTE
+% FOOTNOTES
 %
 \usepackage{tablefootnote}
+
+\setlength{\footnotesep}{12pt}  % vertical space between footnotes
+
+\let\origfootnote\footnote
+\let\origtablefootnote\tablefootnote
+
+% style
+
+\renewcommand{\footnoterule}{%
+  \kern 10pt
+  \textcolor{base06}{\hrule width 6cm height 2pt}
+  \kern 10pt
+  \tiny
+}
+
+% \renewcommand{\footnote}[1]{% font size of footnotes; changes \footnotesize command only inside footnotes...
+%    \renewcommand\footnotesize\scriptsize     % here there is scriptsize in footnotes (example)       
+%    \origfootnote{#1}}     
+% \renewcommand{\tablefootnote}[1]{% ... and tablefootnotes
+%    \renewcommand\footnotesize\scriptsize   
+%    \origtablefootnote{#1}}  
+
+% footnote in quote
 
 \makeatletter
 \def\ifenv#1{
@@ -116,8 +138,12 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 }
 \makeatother
 
-\let\oldfootnote\footnote
-\renewcommand{\footnote}[1]{\ifenv{mdframed}{\tablefootnote{#1}}{\oldfootnote{#1}}}
+\renewcommand{\footnote}[1]{\ifenv{mdframed}{\tablefootnote{#1}}{\origfootnote{#1}}}
+
+
+%
+% QUOTE
+%
 
 \let\origquote\quote
 \let\endorigquote\endquote
@@ -150,10 +176,10 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 
 \usepackage{titlesec}% http://ctan.org/pkg/titlesec
 
-\titleformat{\section}{\Huge\sourcesansproextreme\scshape\slshape}{\thesection}{0cm}{}{}
+\titleformat{\section}{\Huge\sourcesansproextreme\normalfont\scshape\slshape}{\thesection}{0cm}{}{}
 \titleformat{\subsection}{\Large\sourcesanspro\bfseries}{\thesubsection}{0cm}{}{}
 \titlespacing{\subsection}{.5cm}{0cm}{0cm}
-\titleformat{\subsubsection}{\large\sourcesanspro\bfseries}{\thesubsubsection}{0cm}{}{}
+\titleformat{\subsubsection}{\sourcesanspro\bfseries}{\thesubsubsection}{0cm}{}{}
 \titlespacing{\subsubsection}{1cm}{0cm}{0cm}
 
 
@@ -288,28 +314,10 @@ $endif$
 % $header-includes$
 % $endfor$
 
-%%% title 
-
-$if(title)$
-\title{$title$}
-$endif$
-
-%%% subtitle 
-
-$if(subtitle)$
-\providecommand{\subtitle}[1]{}
-\subtitle{$subtitle$}
-$endif$
-
-%%% author 
-
-$if(author)$
-\author{$for(author)$$author$$sep$ \and $endfor$}
-$endif$
-
 
 %%% table of contents
-\renewcommand\contentsname{Sommaire}
+\renewcommand\contentsname{\Huge\sourcesansproextreme\normalfont\scshape\slshape Sommaire}
+
 \setcounter{tocdepth}{3}
 \usepackage{tocloft}
 \cftsetindents{section}{0cm}{0cm}
@@ -320,18 +328,52 @@ $endif$
 
 %%% title 
 
+% $if(title)$
+% \maketitle
+% $endif$
+
+\begin{titlepage}
+\newgeometry{left=6cm} %defines the geometry for the titlepage
+\definecolor{graphql}{HTML}{E10098}
+\pagecolor{graphql}
+\color{base07}
+\begin{center}
+\hspace{-3cm}
+\includegraphics[width=4cm]{../input/logo.pdf}
+\vspace{2cm}
+\end{center}
 $if(title)$
-\maketitle
+\noindent
+\sourcesansproextreme\mdseries\Huge{$title$}
+\par
+\vspace{-1cm}
 $endif$
+\makebox[0pt][l]{\rule{1.3\textwidth}{1pt}}
+\par
+$if(subtitle)$
+\noindent
+\bfseries\Large{$subtitle$}
+$endif$
+\vfill
+\noindent
+\begin{center}
+$if(author)$
+\hspace{-3cm}
+\sourcesansprolight\mdseries\large{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+\end{center}
+\end{titlepage}
 
-\clearpage
-
+%reset
+\restoregeometry % restores the geometry
+\pagecolor{base07}% Use this to restore the color pages to white
 
 
 
 
 %%% abstract 
 $if(abstract)$
+% \section{Résumé}\label{résumé}
 \begin{abstract}
 $abstract$
 \end{abstract}
