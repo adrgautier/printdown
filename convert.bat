@@ -11,6 +11,7 @@ echo -- Copying needed packages
 echo.
 
 cp .\resources\emoji\emojione.sty .\tmp\emojione.sty
+cp -rf .\input\illustrations .\tmp\illustrations
 
 echo.
 echo -- Start loop

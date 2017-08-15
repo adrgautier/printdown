@@ -21,11 +21,11 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 % FONTS
 % 
 
-\usepackage{crimson}
-\usepackage[semibold,light,otf,default]{sourcesanspro}
+%\usepackage{crimson}
+\usepackage[medium,light,default]{roboto}
 \setmonofont[Mapping=tex-ansi]{Consolas}
 \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
-
+\renewcommand{\baselinestretch}{1.5}
 
 % 
 % EMOJIONE
@@ -94,6 +94,7 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 
 % set frame
 \BeforeBeginEnvironment{minted}{\begin{mdframed}[style=code]}
+\AtBeginEnvironment{minted}{\small}
 \AfterEndEnvironment{minted}{\end{mdframed}}
 
 % line numbers styling
@@ -176,10 +177,10 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 
 \usepackage{titlesec}% http://ctan.org/pkg/titlesec
 
-\titleformat{\section}{\Huge\sourcesansproextreme\normalfont\scshape\slshape}{\thesection}{0cm}{}{}
-\titleformat{\subsection}{\Large\sourcesanspro\bfseries}{\thesubsection}{0cm}{}{}
+\titleformat{\section}{\Huge\robotocondensed\normalfont\scshape\slshape}{\thesection}{0cm}{}{}
+\titleformat{\subsection}{\Large\roboto\bfseries}{\thesubsection}{0cm}{}{}
 \titlespacing{\subsection}{.5cm}{0cm}{0cm}
-\titleformat{\subsubsection}{\sourcesanspro\bfseries}{\thesubsubsection}{0cm}{}{}
+\titleformat{\subsubsection}{\roboto\bfseries}{\thesubsubsection}{0cm}{}{}
 \titlespacing{\subsubsection}{1cm}{0cm}{0cm}
 
 
@@ -316,13 +317,16 @@ $endif$
 
 
 %%% table of contents
-\renewcommand\contentsname{\Huge\sourcesansproextreme\normalfont\scshape\slshape Sommaire}
+\renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table des matières}
 
 \setcounter{tocdepth}{3}
 \usepackage{tocloft}
 \cftsetindents{section}{0cm}{0cm}
 \cftsetindents{subsection}{0.5cm}{0.5cm}
 \cftsetindents{subsubsection}{1cm}{0.5cm}
+
+%%% list of figures
+\renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape Table des illustrations}
 
 \begin{document}
 
@@ -334,17 +338,17 @@ $endif$
 
 \begin{titlepage}
 \newgeometry{left=6cm} %defines the geometry for the titlepage
-\definecolor{accent}{HTML}{$if(theme_color)$$theme_color$$else$607D8B$endif$}
+\definecolor{accent}{HTML}{$if(theme_color)$$theme_color$$else$356678$endif$}
 \pagecolor{accent}
 \color{base07}
 \begin{center}
 \hspace{-3cm}
-\includegraphics[width=4cm]{../input/logo.pdf}
+\includegraphics[width=8cm]{../input/logo.pdf}
 \vspace{2cm}
 \end{center}
 $if(title)$
 \noindent
-\sourcesansproextreme\mdseries\Huge{$title$}
+\robotocondensed\mdseries\Huge{$title$}
 \par
 \vspace{-1cm}
 $endif$
@@ -359,7 +363,7 @@ $endif$
 \begin{center}
 $if(author)$
 \hspace{-3cm}
-\sourcesansprolight\mdseries\large{$for(author)$$author$$sep$ \and $endfor$}
+\robotolight\mdseries\large{$for(author)$$author$$sep$ \and $endfor$}
 $endif$
 \end{center}
 \end{titlepage}
@@ -391,7 +395,10 @@ $endif$
 \tableofcontents
 \clearpage
 
+%%% list of figures
 
+\listoffigures
+\clearpage
 
 
 $body$
