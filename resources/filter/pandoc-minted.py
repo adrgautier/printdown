@@ -24,7 +24,7 @@ def unpack_code(value, language):
     attributes = ', '.join('='.join(x) for x in attributes)
     
     # Force attributes
-    attributes = 'linenos,breaklines,breakautoindent=false,breaksymbolindentleft=0pt,breaksymbolleft=\scriptsize↪'
+    attributes = 'linenos,breaklines,breakautoindent=false,breaksymbolindentleft=0pt,breaksymbolleft=\scriptsize↪,fontsize=\small'
 
     return {'contents': contents, 'language': language,
             'attributes': attributes}

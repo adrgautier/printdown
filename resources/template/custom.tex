@@ -1,5 +1,10 @@
 \documentclass[a4paper, 12pt]{article}
 \usepackage{ifxetex,ifluatex}
+%\usepackage[latin1]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage[british,UKenglish,USenglish,english]{babel}
+\global\hyphenpenalty=800
+%\global\hyphenation{}
 
 % 
 % HELPERS
@@ -15,7 +20,7 @@
 \usepackage{geometry}
 \geometry{total={210mm,297mm},
 left=25mm,right=25mm,%
-bindingoffset=0mm, top=20mm,bottom=20mm}
+bindingoffset=0mm, top=20mm,bottom=30mm}
 
 % 
 % FONTS
@@ -42,6 +47,8 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 \mdfdefinestyle{code}{
   % leftmargin=-1cm,
   % rightmargin=-.5cm,
+  skipabove=.5cm,
+  skipbelow=.5cm,  
   innerleftmargin=1cm,
   innertopmargin=.2cm,
   innerrightmargin=.2cm,
@@ -94,11 +101,27 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 
 % set frame
 \BeforeBeginEnvironment{minted}{\begin{mdframed}[style=code]}
-\AtBeginEnvironment{minted}{\small}
+%\AtBeginEnvironment{minted}{\small}
 \AfterEndEnvironment{minted}{\end{mdframed}}
 
 % line numbers styling
 \renewcommand{\theFancyVerbLine}{\textcolor{base02}{\small\shiftleft{.25cm}{\arabic{FancyVerbLine}}}}
+
+
+%
+% FIGURES
+%
+\usepackage[font={footnotesize}]{caption} % caption text size
+% force figure placement in text
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}{%
+  \origfigure[!ht] % hp: here or in a dedicated page % ht: here or at the top of the next page
+}%
+{
+  \endorigfigure
+}
+
 
 %
 % FOOTNOTES
@@ -165,6 +188,26 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 \makeatother 
 
 %
+% PAGE NUMBERING
+%
+\usepackage{fancyhdr}
+
+\fancypagestyle{plain}{%
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyhead[L]{}
+  \fancyhead[C]{} 
+  \fancyhead[R]{}
+
+  \renewcommand{\footrulewidth}{0pt}
+  \fancyfoot[L]{}
+  \fancyfoot[C]{\vspace{.6\baselineskip}
+    \textcolor{base03}{\footnotesize $if(title)$$title$ - $endif$$if(author)$$for(author)$$author$ - $endfor$$endif$ESTEI Mastère 2}} 
+  \fancyfoot[R]{\vspace{.6\baselineskip}\thepage}
+}
+\pagestyle{plain}
+
+
+%
 % HEADERS NUMBERING
 %
 
@@ -179,12 +222,9 @@ bindingoffset=0mm, top=20mm,bottom=20mm}
 
 \titleformat{\section}{\Huge\robotocondensed\normalfont\scshape\slshape}{\thesection}{0cm}{}{}
 \titleformat{\subsection}{\Large\roboto\bfseries}{\thesubsection}{0cm}{}{}
-\titlespacing{\subsection}{.5cm}{0cm}{0cm}
 \titleformat{\subsubsection}{\roboto\bfseries}{\thesubsubsection}{0cm}{}{}
-\titlespacing{\subsubsection}{1cm}{0cm}{0cm}
-
-
-
+\titlespacing{\subsection}{.5cm}{.5cm}{.5cm}
+\titlespacing{\subsubsection}{1cm}{.5cm}{0cm}
 
 % NEW PAGE AFTER SECTION
 %\newcommand{\sectionbreak}{\clearpage}
@@ -318,6 +358,7 @@ $endif$
 
 %%% table of contents
 \renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table des matières}
+%\renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table of contents}
 
 \setcounter{tocdepth}{3}
 \usepackage{tocloft}
@@ -327,6 +368,7 @@ $endif$
 
 %%% list of figures
 \renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape Table des illustrations}
+%\renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape List of figures}
 
 \begin{document}
 
@@ -363,7 +405,7 @@ $endif$
 \begin{center}
 $if(author)$
 \hspace{-3cm}
-\robotolight\mdseries\large{$for(author)$$author$$sep$ \and $endfor$}
+\roboto\mdseries\large{$for(author)$$author$$sep$ \and $endfor$}
 $endif$
 \end{center}
 \end{titlepage}
@@ -371,8 +413,6 @@ $endif$
 %reset
 \restoregeometry % restores the geometry
 \pagecolor{base07}% Use this to restore the color pages to white
-
-
 
 
 %%% abstract 
