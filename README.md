@@ -6,8 +6,8 @@ Printdown is a combination of several tools allowing the conversion of Markdown 
 
 ## Features
 
-While still in development, this tool supports most a the Markdown features such as blockquotes, code, figures (images), footnotes, etc.
-Some features (i.e. tables) might work but can look odd with the rest of the layout.
+While still in development, this tool supports most the Markdown features such as blockquotes, code, figures (images), footnotes, etc.
+Some features (eg tables) might work but can look odd with the rest of the layout.
 
 ## Setup
 
@@ -15,9 +15,9 @@ Some features (i.e. tables) might work but can look odd with the rest of the lay
 
 First you will need the further programs :
 
-[pandoc]: Used for the Markdown to Latex conversion.
-[xelatex]: Used to process the temporary Latex file into the final PDF.
-[python and pip]: Used to power Pygments the syntax highlighter.
+- **pandoc**: Used for the Markdown to Latex conversion.
+- **xelatex**: Used to process the temporary Latex file into the final PDF.
+- **python** and **pip**: Used to power Pygments the syntax highlighter.
 
 You must install Pygments using pip.
 
@@ -35,7 +35,7 @@ I will surely adapt this Windows `.bat` to a Linux `.sh` to allow this tool to b
 
 You need to place your Markdown files in the input directory.
 
-> If your Markdown contains relative links to images, you must manage the fact that the conversion will occur in a `tmp/` folder, sibling to the `input/` folder.
+> If your Markdown contains relative links to images, you must manage the fact that the conversion will occur in a `tmp\` folder, sibling to the `input\` folder.
 > Thus you may need to copy an assets folder from `input\` into `tmp\` before any other process. See the batch file for further details...
 
 Just call the script :
