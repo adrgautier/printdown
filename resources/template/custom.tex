@@ -1,10 +1,6 @@
 \documentclass[a4paper, 12pt]{article}
 \usepackage{ifxetex,ifluatex}
-%\usepackage[latin1]{inputenc}
-%\usepackage[T1]{fontenc}
-%\usepackage[british,UKenglish,USenglish,english]{babel}
 \global\hyphenpenalty=800
-%\global\hyphenation{}
 
 % 
 % HELPERS
@@ -12,6 +8,25 @@
 
 \newcommand{\shiftleft}[2]{\makebox[0pt][r]{\makebox[#1][l]{#2}}}
 \newcommand{\shiftright}[2]{\makebox[#1][r]{\makebox[0pt][l]{#2}}}
+
+% colors definition (balanced)
+\usepackage{xcolor}
+\definecolor{base00}{HTML}{232323}
+\definecolor{base01}{HTML}{373737}
+\definecolor{base02}{HTML}{4B4B4B}
+\definecolor{base03}{HTML}{696969}
+\definecolor{base04}{HTML}{B9B9B9}
+\definecolor{base05}{HTML}{D7D7D7}
+\definecolor{base06}{HTML}{EBEBEB}
+\definecolor{base07}{HTML}{FFFFFF}
+\definecolor{base08}{HTML}{c35555} % red
+\definecolor{base09}{HTML}{e19155} % orange
+\definecolor{base0A}{HTML}{f5cd7d} % yellow
+\definecolor{base0B}{HTML}{91b973} % green
+\definecolor{base0C}{HTML}{91c3c3} % cyan
+\definecolor{base0D}{HTML}{4b91b9} % blue
+\definecolor{base0E}{HTML}{9b69af} % purple
+\definecolor{base0F}{HTML}{37697d} % teal
 
 % 
 % MARGINS
@@ -26,17 +41,16 @@ bindingoffset=0mm, top=20mm,bottom=30mm}
 % FONTS
 % 
 
-%\usepackage{crimson}
 \usepackage[medium,light,default]{roboto}
 \setmonofont[Mapping=tex-ansi]{Consolas}
 \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \renewcommand{\baselinestretch}{1.5}
 
-% 
-% EMOJIONE
-% 
-
-\usepackage[scale=1.8]{emojione}
+%
+% EMOJIONE (https://github.com/benjamin-weiss/emojione-latex)
+%
+%
+%\usepackage[scale=1.8]{emojione}
 
 %
 % FRAMES
@@ -45,15 +59,13 @@ bindingoffset=0mm, top=20mm,bottom=30mm}
 
 % code frame
 \mdfdefinestyle{code}{
-  % leftmargin=-1cm,
-  % rightmargin=-.5cm,
   skipabove=.5cm,
   skipbelow=.5cm,  
   innerleftmargin=1cm,
   innertopmargin=.2cm,
   innerrightmargin=.2cm,
   innerbottommargin=.2cm,              
-  backgroundcolor=base00,
+  backgroundcolor=base06, % change this according to highlighter theme
   linewidth=0
 }
 
@@ -76,28 +88,9 @@ bindingoffset=0mm, top=20mm,bottom=30mm}
 % SYNTHAX HIGHLIGTING
 % 
 
-% colors definition (balanced)
-\usepackage{xcolor}
-\definecolor{base00}{HTML}{232323}
-\definecolor{base01}{HTML}{373737}
-\definecolor{base02}{HTML}{4B4B4B}
-\definecolor{base03}{HTML}{696969}
-\definecolor{base04}{HTML}{B9B9B9}
-\definecolor{base05}{HTML}{D7D7D7}
-\definecolor{base06}{HTML}{EBEBEB}
-\definecolor{base07}{HTML}{FFFFFF}
-\definecolor{base08}{HTML}{c35555} % red
-\definecolor{base09}{HTML}{e19155} % orange
-\definecolor{base0A}{HTML}{f5cd7d} % yellow
-\definecolor{base0B}{HTML}{91b973} % green
-\definecolor{base0C}{HTML}{91c3c3} % cyan
-\definecolor{base0D}{HTML}{4b91b9} % blue
-\definecolor{base0E}{HTML}{9b69af} % purple
-\definecolor{base0F}{HTML}{37697d} % teal
-
 % minted import
 \usepackage[cache=false]{minted}
-\usemintedstyle{balanced-dark}
+\usemintedstyle{default}
 
 % set frame
 \BeforeBeginEnvironment{minted}{\begin{mdframed}[style=code]}
@@ -164,6 +157,12 @@ bindingoffset=0mm, top=20mm,bottom=30mm}
 
 \renewcommand{\footnote}[1]{\ifenv{mdframed}{\tablefootnote{#1}}{\origfootnote{#1}}}
 
+% \makeatletter
+% % \def\@makefnmark{\hbox{\@textsuperscript{\normalfont\@thefnmark}}}
+% \let\old@makefnmark\@makefnmark
+% \newcommand{\@newmakefnmark}{\@textsuperscript{\normalfont\@thefnmark}}
+% \patchcmd{\@makefntext}{\@makefnmark}{\old@makefnmark}{}{}
+% \makeatother
 
 %
 % QUOTE
@@ -201,7 +200,7 @@ bindingoffset=0mm, top=20mm,bottom=30mm}
   \renewcommand{\footrulewidth}{0pt}
   \fancyfoot[L]{}
   \fancyfoot[C]{\vspace{.6\baselineskip}
-    \textcolor{base03}{\footnotesize $if(title)$$title$ - $endif$$if(author)$$for(author)$$author$ - $endfor$$endif$ESTEI Mastère 2}} 
+    \textcolor{base03}{\footnotesize $if(title)$$title$ - $endif$$if(author)$$for(author)$$author$$endfor$$endif$}}
   \fancyfoot[R]{\vspace{.6\baselineskip}\thepage}
 }
 \pagestyle{plain}
@@ -357,8 +356,8 @@ $endif$
 
 
 %%% table of contents
-\renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table des matières}
-%\renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table of contents}
+%\renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table des matières}
+\renewcommand\contentsname{\Huge\robotocondensed\normalfont\scshape\slshape Table of Contents}
 
 \setcounter{tocdepth}{3}
 \usepackage{tocloft}
@@ -367,8 +366,8 @@ $endif$
 \cftsetindents{subsubsection}{1cm}{0.5cm}
 
 %%% list of figures
-\renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape Table des illustrations}
-%\renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape List of figures}
+%\renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape Table des illustrations}
+\renewcommand\listfigurename{\Huge\robotocondensed\normalfont\scshape\slshape List of Figures}
 
 \begin{document}
 
@@ -385,7 +384,7 @@ $endif$
 \color{base07}
 \begin{center}
 \hspace{-3cm}
-\includegraphics[width=8cm]{../input/logo.pdf}
+\includegraphics[width=8cm]{./assets/logo.pdf}
 \vspace{2cm}
 \end{center}
 $if(title)$

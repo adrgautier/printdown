@@ -1,7 +1,0 @@
-{
-  "output": "tmp",
-  "plugins": [
-    "gemoji-to-emoji",
-    "lint"
-  ]
-}
